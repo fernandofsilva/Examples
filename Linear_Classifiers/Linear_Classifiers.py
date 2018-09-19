@@ -230,6 +230,7 @@ print("Test accuracy of best grid search hypers:", searcher.score(X_test, y_test
 del parameters, digits
 
 from sklearn.linear_model import SGDClassifier
+from sklearn import metrics
 
 # We set random_state=0 for reproducibility 
 linear_classifier = SGDClassifier(random_state=0)
@@ -239,10 +240,19 @@ parameters = {'alpha':[0.00001, 0.0001, 0.001, 0.01, 0.1, 1],
              'loss':['hinge', 'log'], 'penalty':['l1', 'l2']}
 searcher = GridSearchCV(linear_classifier, parameters, cv=10)
 searcher.fit(X_train, y_train)
+y_pred = searcher.predict(X_test)
 
 # Report the best parameters and the corresponding score
 print("Best CV params", searcher.best_params_)
 print("Best CV accuracy", searcher.best_score_)
-print("Test accuracy of best grid search hypers:", searcher.score(X_test, y_test))
 
-del X_train, X_test, y_train, y_test, parameters
+# Model Accuracy: how often is the classifier correct?
+print("Accuracy:",metrics.accuracy_score(y_test, y_pred))
+
+# Model Precision: what percentage of positive tuples are labeled as such?
+print("Precision:",metrics.precision_score(y_test, y_pred))
+
+# Model Recall: what percentage of positive tuples are labelled as such?
+print("Recall:",metrics.recall_score(y_test, y_pred))
+
+del X_train, X_test, y_train, y_test, y_pred, parameters
