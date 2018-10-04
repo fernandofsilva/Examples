@@ -24,7 +24,6 @@ print("SVC Traning -> {:f}".format(svm.score(Xtrain, ytrain)))
 print("SVC Traning -> {:f}".format(svm.score(Xtest, ytest)))
 del Xtest, Xtrain, ytest, ytrain, digits
 
-
 from sklearn.linear_model import LinearRegression
 from scipy.optimize import minimize
 
